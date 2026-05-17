@@ -12,6 +12,7 @@ package com.example.integration.paytr.util;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Base64;
 
 public final class PayTRTokenUtil {
@@ -96,7 +97,14 @@ public final class PayTRTokenUtil {
                                              String merchantSalt, String status, String totalAmount,
                                              String merchantKey, String receivedHash) {
         String expectedHash = callbackHash(merchantOid, merchantSalt, status, totalAmount, merchantKey);
-        return expectedHash.equals(receivedHash);
+        if (expectedHash == null || receivedHash == null) {
+            return false;
+        }
+        // Timing-safe comparison (prevents timing attacks)
+        return MessageDigest.isEqual(
+            expectedHash.getBytes(StandardCharsets.UTF_8),
+            receivedHash.getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     private static String hmacSha256Base64(String data, String key) {

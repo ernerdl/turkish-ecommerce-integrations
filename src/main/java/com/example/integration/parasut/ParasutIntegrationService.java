@@ -119,8 +119,8 @@ public class ParasutIntegrationService {
             log.info("grant_type: {}", params.getFirst("grant_type"));
             log.info("client_id: {}", params.getFirst("client_id"));
             log.info("username: {}", params.getFirst("username"));
-            log.info("client_secret uzunluk: {}", params.getFirst("client_secret") != null ? params.getFirst("client_secret").length() : 0);
-            log.info("password uzunluk: {}", params.getFirst("password") != null ? params.getFirst("password").length() : 0);
+            log.debug("client_secret mevcut: {}", params.getFirst("client_secret") != null);
+            log.debug("password mevcut: {}", params.getFirst("password") != null);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
