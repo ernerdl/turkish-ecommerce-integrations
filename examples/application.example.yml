@@ -1,0 +1,40 @@
+# Örnek konfigürasyon dosyası
+# Bu dosyayı application.yml olarak kopyalayıp kendi değerlerinle doldur
+
+spring:
+  application:
+    name: my-erp
+
+# İkas Webhook (opsiyonel - webhook kullanılıyorsa)
+ikas:
+  webhook:
+    api-url: ${IKAS_WEBHOOK_API_URL:}  # https://yourapp.com/api/ikas/webhook
+    secret: ${IKAS_WEBHOOK_SECRET:}    # Random güçlü secret
+
+# Trendyol, İkas API key'leri ve diğer entegrasyon credential'ları
+# kendi DB tablonuzda (örn: satis_kanallari) saklayın, environment'a koymayın.
+#
+# Örnek tablo şeması:
+#
+# CREATE TABLE satis_kanallari (
+#   id BIGSERIAL PRIMARY KEY,
+#   kanal_kodu VARCHAR(50) UNIQUE NOT NULL,  -- 'TRENDYOL', 'IKAS', 'PARASUT'
+#   satici_id VARCHAR(100),                   -- Trendyol supplier ID
+#   api_anahtar VARCHAR(255),                 -- API key / client ID
+#   api_gizli_anahtar VARCHAR(255),           -- API secret / client secret
+#   son_siparis_senkron TIMESTAMP,
+#   son_senkron_hatasi TEXT,
+#   aktif BOOLEAN DEFAULT true
+# );
+
+# PayTR konfigürasyonu (PayTRConfig.java'ya bak)
+paytr:
+  merchant-id: ${PAYTR_MERCHANT_ID:}
+  merchant-key: ${PAYTR_MERCHANT_KEY:}
+  merchant-salt: ${PAYTR_MERCHANT_SALT:}
+
+# Logging
+logging:
+  level:
+    com.example.integration: INFO
+    org.springframework.web.reactive.function.client: WARN
